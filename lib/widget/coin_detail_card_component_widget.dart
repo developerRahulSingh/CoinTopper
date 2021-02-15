@@ -72,7 +72,12 @@ class _CoinDetailCardComponentWidgetState
             margin: EdgeInsets.only(bottom: 10),
             padding: EdgeInsets.all(16.0),
             child: GraphWidget(
-                widget.marketId, widget.color1, widget.color2, true, true),
+              marketId: widget.marketId,
+              color1: widget.color1,
+              color2: widget.color2,
+              leftSizeShowTitles: true,
+              bottomSideShowTitles: true,
+            ),
           ),
           Container(
             margin: EdgeInsets.all(10),

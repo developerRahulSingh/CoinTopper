@@ -14,13 +14,19 @@ class GraphWidget extends StatefulWidget {
   final bool leftSizeShowTitles;
   final bool bottomSideShowTitles;
 
-  GraphWidget(
+  const GraphWidget({
+    Key key,
     this.marketId,
     this.color1,
     this.color2,
     this.leftSizeShowTitles,
     this.bottomSideShowTitles,
-  );
+  })   : assert(marketId != null),
+        assert(color1 != null),
+        assert(color2 != null),
+        assert(leftSizeShowTitles != null),
+        assert(bottomSideShowTitles != null),
+        super(key: key);
 
   @override
   _GraphWidgetState createState() => _GraphWidgetState();
@@ -147,8 +153,8 @@ class _GraphWidgetState extends State<GraphWidget> {
           _maxX = _values.last.x;
           _minY = minY.floorToDouble();
           _maxY = maxY.ceilToDouble();
-          _leftTitlesInterval =
-              ((_maxY - _minY) / (_leftLabelsCount - 1)).floorToDouble();
+          _leftTitlesInterval = ((_maxY - _minY) / (_leftLabelsCount - 1));
+
           return Container(
             height: MediaQuery.of(context).size.height * 0.3,
             width: MediaQuery.of(context).size.width,

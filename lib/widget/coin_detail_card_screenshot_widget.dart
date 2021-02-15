@@ -150,8 +150,6 @@ class _CoinDetailCardWidgetState extends State<CoinDetailCardWidget> {
                         colors: [
                           HexColor(widget.data.color1),
                           HexColor(widget.data.color2)
-//                          HexColor('#000000'),
-//                          HexColor('#000000')
                         ],
                       ),
                     ),
@@ -363,13 +361,11 @@ class _CoinDetailCardWidgetState extends State<CoinDetailCardWidget> {
                                         color: Colors.transparent,
                                         padding: EdgeInsets.all(4.0),
                                         child: GraphWidget(
-                                          widget.data.marketId,
-//                                          widget.data.color1,
-                                          '#FFFAFA',
-//                                          widget.data.color2,
-                                          '#F5F5F5',
-                                          false,
-                                          false,
+                                          marketId: widget.data.marketId,
+                                          color1: '#FFFAFA',
+                                          color2: '#F5F5F5',
+                                          leftSizeShowTitles: false,
+                                          bottomSideShowTitles: false,
                                         ),
                                       ),
                                       Text(
