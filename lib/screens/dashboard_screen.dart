@@ -5,6 +5,7 @@ import 'package:cointopper/bloc/dashboard_bloc/dashboard_state.dart';
 import 'package:cointopper/screens/search_coin_list_screen.dart';
 import 'package:cointopper/widget/coin_card_widget.dart';
 import 'package:cointopper/widget/coin_list_widget.dart';
+import 'package:cointopper/widget/icon_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -20,13 +21,24 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          Column(
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            const Color(0xFF003399),
+            const Color(0xFF0073e6),
+          ],
+          begin: const FractionalOffset(0.0, 0.0),
+          end: const FractionalOffset(1.0, 0.0),
+          stops: [0.0, 1.0],
+        ),
+      ),
+      child: SafeArea(
+        bottom: false,
+        child: Scaffold(
+          body: Column(
             children: [
               Container(
-                padding: EdgeInsets.only(top: 32, left: 4, right: 4),
                 height: MediaQuery.of(context).size.height * 0.25,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -222,37 +234,21 @@ class _HomeState extends State<Home> {
                               return CircularProgressIndicator();
                             },
                           ),
-                          Container(
-                            height: 40,
-                            width: MediaQuery.of(context).size.width * 0.15,
-                            decoration: BoxDecoration(
-                              color: Color(0xFF2e5cb8),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.star_border,
-                                color: Colors.white60,
-                                size: 21,
-                              ),
-                            ),
+                          IconButtonWidget(
+                            iconName: Icons.star_border,
+                            iconColor: Colors.white60,
+                            iconBackgroundColor: Color(0xFF2e5cb8),
+                            onPress: () {
+                              print('IconButton Press');
+                            },
                           ),
-                          Container(
-                            height: 40,
-                            width: MediaQuery.of(context).size.width * 0.15,
-                            decoration: BoxDecoration(
-                              color: Color(0xFF2e5cb8),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.notifications_active,
-                                color: Colors.white60,
-                                size: 21,
-                              ),
-                            ),
+                          IconButtonWidget(
+                            iconName: Icons.notifications_active,
+                            iconColor: Colors.white60,
+                            iconBackgroundColor: Color(0xFF2e5cb8),
+                            onPress: () {
+                              print('IconButton Press');
+                            },
                           ),
                         ],
                       ),
@@ -273,7 +269,7 @@ class _HomeState extends State<Home> {
               ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }

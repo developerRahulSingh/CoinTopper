@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cointopper/entities/coin_list_entity.dart';
 import 'package:cointopper/models/coin_list_response_model.dart';
 import 'package:cointopper/screens/coin_detail_screen.dart';
+import 'package:cointopper/widget/coin_list_widgets/list_header_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -120,56 +121,28 @@ class _CoinListWidgetState extends State<CoinListWidget> {
                       }
                     });
                   },
-                  child: Row(
-                    children: [
-                      Text(
-                        'NAME/  M.CAP',
-                        style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.03,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xFF005580),
-                        ),
-                      ),
-                      Icon(
-                        isSort ? Icons.arrow_downward : Icons.arrow_upward,
-                        size: MediaQuery.of(context).size.width * 0.03,
-                        color: Color(0xFF005580),
-                      ),
-                    ],
+                  child: ListHeaderWidget(
+                    headerName: 'NAME/  M.CAP',
+                    isSort: isSort,
                   ),
                 ),
                 GestureDetector(
                   onTap: () {
                     setState(() {
                       if (isSortChange) {
-                        _pagingController.itemList
-                            .sort((a, b) => b.name.compareTo(a.name));
+                        _pagingController.itemList.sort((a, b) =>
+                            b.percentChange24h.compareTo(a.percentChange24h));
                         isSortChange = false;
                       } else {
-                        _pagingController.itemList
-                            .sort((a, b) => a.name.compareTo(b.name));
+                        _pagingController.itemList.sort((a, b) =>
+                            a.percentChange24h.compareTo(b.percentChange24h));
                         isSortChange = true;
                       }
                     });
                   },
-                  child: Row(
-                    children: [
-                      Text(
-                        'CHANGE',
-                        style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.03,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xFF005580),
-                        ),
-                      ),
-                      Icon(
-                        isSortChange
-                            ? Icons.arrow_downward
-                            : Icons.arrow_upward,
-                        size: MediaQuery.of(context).size.width * 0.03,
-                        color: Color(0xFF005580),
-                      ),
-                    ],
+                  child: ListHeaderWidget(
+                    headerName: 'CHANGE',
+                    isSort: isSortChange,
                   ),
                 ),
                 GestureDetector(
@@ -186,22 +159,9 @@ class _CoinListWidgetState extends State<CoinListWidget> {
                       }
                     });
                   },
-                  child: Row(
-                    children: [
-                      Text(
-                        'PRICE',
-                        style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.03,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xFF005580),
-                        ),
-                      ),
-                      Icon(
-                        isSortPrice ? Icons.arrow_downward : Icons.arrow_upward,
-                        size: MediaQuery.of(context).size.width * 0.03,
-                        color: Color(0xFF005580),
-                      ),
-                    ],
+                  child: ListHeaderWidget(
+                    headerName: 'PRICE',
+                    isSort: isSortPrice,
                   ),
                 ),
               ],
