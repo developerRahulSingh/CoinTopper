@@ -8,6 +8,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:image_picker_saver/image_picker_saver.dart';
 import 'package:intl/intl.dart';
 
+import 'coin_details_widgets/coin_price_and _change_widget.dart';
 import 'graph_widget.dart';
 
 class CoinDetailCardWidget extends StatefulWidget {
@@ -192,41 +193,19 @@ class _CoinDetailCardWidgetState extends State<CoinDetailCardWidget> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "${widget.data.price > 99999 ? NumberFormat.compactCurrency(
+                                CoinPriceAndChangeWidget(
+                                  price: widget.data.price > 99999
+                                      ? NumberFormat.compactCurrency(
                                           decimalDigits: 2,
                                           symbol: '${widget.currencySymbol}',
-                                        ).format(widget.data.price) : '${widget.currencySymbol}' + widget.data.price.toStringAsFixed(2)}",
-                                      style: TextStyle(
-                                          fontSize: 24,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Image(
-                                      height: 12,
-                                      width: 12,
-                                      image: AssetImage(
-                                          widget.data.percentChange24h > 0
-                                              ? "assets/images/up_arrow.png"
-                                              : "assets/images/down_arrow.png"),
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      '${double.parse((widget.data.percentChange24h).toStringAsFixed(2))}%',
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.white60,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
+                                        ).format(widget.data.price)
+                                      : '${widget.currencySymbol}' +
+                                          widget.data.price.toStringAsFixed(2),
+                                  change: widget.data.percentChange24h,
+                                  priceFontSize:
+                                      MediaQuery.of(context).size.width * 0.06,
+                                  changeFontSize:
+                                      MediaQuery.of(context).size.width * 0.03,
                                 ),
                                 Row(
                                   children: [
@@ -262,82 +241,64 @@ class _CoinDetailCardWidgetState extends State<CoinDetailCardWidget> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Row(
-                                            children: [
-                                              Text(
-                                                "${widget.data.high24USD > 99999 ? NumberFormat.compactCurrency(
+                                          CoinPriceAndChangeWidget(
+                                            price: widget.data.high24USD > 99999
+                                                ? NumberFormat.compactCurrency(
                                                     decimalDigits: 2,
                                                     symbol:
                                                         '${widget.currencySymbol}',
-                                                  ).format(widget.data.high24USD) : '${widget.currencySymbol}' + widget.data.high24USD.toStringAsFixed(2)}",
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: Colors.white,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              SizedBox(
-                                                width: 5,
-                                              ),
-                                              Text(
-                                                "24 HRS HIGH",
-                                                style: TextStyle(
-                                                    fontSize: 8,
-                                                    color: Colors.white60,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            ],
+                                                  ).format(
+                                                    widget.data.high24USD)
+                                                : '${widget.currencySymbol}' +
+                                                    widget.data.high24USD
+                                                        .toStringAsFixed(2),
+                                            priceFontSize:
+                                                MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.04,
+                                            title: "24 HRS HIGH",
+                                            titleFontSize:
+                                                MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.025,
                                           ),
-                                          Row(
-                                            children: [
-                                              Text(
-                                                "${widget.data.low24USD > 99999 ? NumberFormat.compactCurrency(
+                                          CoinPriceAndChangeWidget(
+                                            price: widget.data.low24USD > 99999
+                                                ? NumberFormat.compactCurrency(
                                                     decimalDigits: 2,
                                                     symbol:
                                                         '${widget.currencySymbol}',
-                                                  ).format(widget.data.low24USD) : '${widget.currencySymbol}' + widget.data.low24USD.toStringAsFixed(2)}",
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: Colors.white,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              SizedBox(
-                                                width: 5,
-                                              ),
-                                              Text(
-                                                "24 HRS LOW",
-                                                style: TextStyle(
-                                                    fontSize: 8,
-                                                    color: Colors.white60,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            ],
+                                                  ).format(widget.data.low24USD)
+                                                : '${widget.currencySymbol}' +
+                                                    widget.data.low24USD
+                                                        .toStringAsFixed(2),
+                                            priceFontSize:
+                                                MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.04,
+                                            title: "24 HRS LOW",
+                                            titleFontSize:
+                                                MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.025,
                                           ),
-                                          Row(
-                                            children: [
-                                              Text(
-                                                "\$$cap",
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: Colors.white,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              SizedBox(
-                                                width: 5,
-                                              ),
-                                              Text(
-                                                "Market Cap",
-                                                style: TextStyle(
-                                                    fontSize: 8,
-                                                    color: Colors.white60,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            ],
+                                          CoinPriceAndChangeWidget(
+                                            price: cap,
+                                            priceFontSize:
+                                                MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.04,
+                                            title: "Market Cap",
+                                            titleFontSize:
+                                                MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.025,
                                           ),
                                         ],
                                       ),

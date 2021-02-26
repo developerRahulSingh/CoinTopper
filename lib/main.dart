@@ -31,7 +31,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
   runApp(DevicePreview(
-    enabled: !kReleaseMode,
+//    enabled: !kReleaseMode,
+    enabled: kReleaseMode,
     builder: (context) => MultiBlocProvider(
       providers: [
         BlocProvider<DashboardBloc>(
@@ -108,6 +109,7 @@ class MyApp extends StatelessWidget {
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,

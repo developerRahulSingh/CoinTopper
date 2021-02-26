@@ -1,12 +1,13 @@
 import 'package:cointopper/entities/guides_entity.dart';
+import 'package:cointopper/widget/coin_details_widgets/build_total_cap_widget.dart';
+import 'package:cointopper/widget/coin_details_widgets/coin_detail_card_container_style_widget.dart';
+import 'package:cointopper/widget/coin_details_widgets/coin_detail_intro_widget.dart';
+import 'package:cointopper/widget/coin_details_widgets/important_articles_widget.dart';
 import 'package:cointopper/widget/graph_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:readmore/readmore.dart';
 
 import 'coin_details_widgets/coin_important_links.dart';
-import 'coin_details_widgets/details_img_carousel.dart';
-import 'coin_details_widgets/details_youtube_player.dart';
 
 class CoinDetailCardComponentWidget extends StatefulWidget {
   final double volume;
@@ -58,18 +59,12 @@ class CoinDetailCardComponentWidget extends StatefulWidget {
 
 class _CoinDetailCardComponentWidgetState
     extends State<CoinDetailCardComponentWidget> {
-  String removeAllHtmlTags(String htmlText) {
-    RegExp exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
-    return htmlText.replaceAll(exp, '');
-  }
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
           Container(
-            margin: EdgeInsets.only(bottom: 10),
             padding: EdgeInsets.all(16.0),
             child: GraphWidget(
               marketId: widget.marketId,
@@ -79,187 +74,80 @@ class _CoinDetailCardComponentWidgetState
               bottomSideShowTitles: true,
             ),
           ),
-          Container(
-            margin: EdgeInsets.all(10),
-            child: Card(
-              elevation: 3,
-              child: Container(
-                padding: EdgeInsets.all(15),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
+          CoinDetailCardContainerStyleWidget(
+            child: Column(
+              children: [
+                BuildTotalCapWidget(
+                  name: "Total Coins",
+                  value: NumberFormat.compactCurrency(
+                    decimalDigits: 2,
+                    symbol: '${widget.currencySymbol}',
+                  ).format(widget.volume),
                 ),
-                child: Column(
-                  children: [
-                    _buildTotalCap(
-                      context,
-                      "24 Hrs Volume",
-                      widget.volume,
-                      widget.currencySymbol,
-                    ),
-                    Divider(
-                      color: Colors.blue[800],
-                      thickness: 2,
-                    ),
-                    _buildTotalCap(
-                      context,
-                      "Total Coins",
-                      widget.availableSupply,
-                      widget.currencySymbol,
-                    ),
-                    Divider(
-                      color: Colors.blue[800],
-                      thickness: 2,
-                    ),
-                    _buildTotalCap(
-                      context,
-                      "Market Cap",
-                      widget.marketCapUSD,
-                      widget.currencySymbol,
-                    ),
-                  ],
+                Divider(
+                  color: Colors.blue[800],
+                  thickness: 2,
                 ),
-              ),
+                BuildTotalCapWidget(
+                  name: "Total Coins",
+                  value: NumberFormat.compactCurrency(
+                    decimalDigits: 2,
+                    symbol: '${widget.currencySymbol}',
+                  ).format(widget.availableSupply),
+                ),
+                Divider(
+                  color: Colors.blue[800],
+                  thickness: 2,
+                ),
+                BuildTotalCapWidget(
+                  name: "Market Cap",
+                  value: NumberFormat.compactCurrency(
+                    decimalDigits: 2,
+                    symbol: '${widget.currencySymbol}',
+                  ).format(widget.marketCapUSD),
+                ),
+              ],
             ),
           ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 10),
-            child: Card(
-              elevation: 3,
-              child: Container(
-                padding: EdgeInsets.all(15),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
+          CoinDetailIntroWidget(
+            heading: "About",
+            intro: widget.intro,
+            youtube: widget.youtube,
+          ),
+          CoinDetailCardContainerStyleWidget(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.symmetric(vertical: 4.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                  ),
+                  child: Text(
+                    "Important Links",
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.06,
+                      color: Colors.black54,
+                    ),
+                  ),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "About",
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.black54,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    ReadMoreText(
-                      removeAllHtmlTags(widget.intro),
-                      trimLines: 1,
-                      colorClickableText: Colors.blue,
-                      trimCollapsedText: '...Show more',
-                      trimExpandedText: ' show less',
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    DetailsYoutubePlayer(widget.youtube),
-                  ],
+                CoinImportantLinks(
+                  widget.youtube,
+                  widget.website,
+                  widget.explorer,
+                  widget.facebook,
+                  widget.blog,
+                  widget.forum,
+                  widget.github,
+                  widget.raddit,
+                  widget.slack,
+                  widget.paper,
                 ),
-              ),
+              ],
             ),
           ),
-          Container(
-            margin: EdgeInsets.all(10.0),
-            child: Card(
-              elevation: 3,
-              child: Container(
-                padding: EdgeInsets.only(left: 15, right: 15, bottom: 15),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(32.0),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.symmetric(vertical: 4.0),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                      ),
-                      child: Text(
-                        "Important Links",
-                        style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.06,
-                          color: Colors.black54,
-                        ),
-                      ),
-                    ),
-                    CoinImportantLinks(
-                      widget.youtube,
-                      widget.website,
-                      widget.explorer,
-                      widget.facebook,
-                      widget.blog,
-                      widget.forum,
-                      widget.github,
-                      widget.raddit,
-                      widget.slack,
-                      widget.paper,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(bottom: 10, left: 10, right: 10),
-            child: Card(
-              elevation: 3,
-              child: Container(
-                padding: EdgeInsets.all(15),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Important Articles",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.black54,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    DetailsImageCarousel(widget.guides),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTotalCap(
-      context, String name, dynamic value, dynamic currencySymbol) {
-    var _formattedValue = NumberFormat.compactCurrency(
-      decimalDigits: 2,
-      symbol: '$currencySymbol',
-    ).format(value);
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            name,
-            style: TextStyle(
-              fontSize: MediaQuery.of(context).size.width * 0.05,
-              color: Colors.black54,
-            ),
-          ),
-          Text(
-            _formattedValue,
-            style: TextStyle(
-              fontSize: MediaQuery.of(context).size.width * 0.05,
-              color: Colors.blue[800],
-            ),
-          ),
+          ImportantArticlesWidget(guides: widget.guides),
         ],
       ),
     );

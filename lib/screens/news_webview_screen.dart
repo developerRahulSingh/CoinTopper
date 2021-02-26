@@ -1,9 +1,11 @@
 import 'package:cointopper/bloc/news_details_bloc/news_details_bloc.dart';
 import 'package:cointopper/bloc/news_details_bloc/news_details_event.dart';
 import 'package:cointopper/bloc/news_details_bloc/news_details_state.dart';
+import 'package:cointopper/widget/close_button.dart';
+import 'package:cointopper/widget/custom_safearea_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 
 class NewsWebview extends StatefulWidget {
   final int id;
@@ -13,143 +15,106 @@ class NewsWebview extends StatefulWidget {
   });
 
   @override
-  _NewsWebviewState createState() => _NewsWebviewState(id: id);
+  _NewsWebviewState createState() => _NewsWebviewState();
 }
 
 class _NewsWebviewState extends State<NewsWebview> {
-  final int id;
-
-  _NewsWebviewState({
-    @required this.id,
-  });
-
-  final globalKey = GlobalKey<ScaffoldState>();
-
-  @override
-  void initState() {
-    super.initState();
-    BlocProvider.of<NewsDetailsBloc>(context).add(LoadNewsDetails(id));
-  }
+  get globalKey => GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-          colors: [Color(0xFFdb1ec9), Color(0xFFff005a)],
-        ),
-      ),
-      child: SafeArea(
-        bottom: false,
-        child: Scaffold(
-          key: globalKey,
-          body: BlocBuilder<NewsDetailsBloc, NewsDetailsState>(
-            builder: (context, state) {
-              if (state is NewsDetailsLoadSuccess) {
-                var data = state.newsDetailsList;
-                var details = data.map((e) => e.detailsEn).toList();
-                var title = data.map((e) => e.titleEn).toList();
-                var photo = data.map((e) => e.photoFile.trim()).toList();
-                // return _buildWebView(details.single);
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: 80,
-                      padding: EdgeInsets.only(left: 8.0, right: 8.0),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                          colors: [Color(0xFFdb1ec9), Color(0xFFff005a)],
-                        ),
-                      ),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "News",
-                                style: TextStyle(
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.08,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.all(4),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(30),
-                                    color: Colors.white30,
-                                  ),
-                                  child: Icon(
-                                    Icons.close,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
+    BlocProvider.of<NewsDetailsBloc>(context).add(LoadNewsDetails(widget.id));
+    return CustomSafeAreaWidget(
+      color1: Color(0xFFdb1ec9),
+      color2: Color(0xFFff005a),
+      child: Scaffold(
+        body: BlocBuilder<NewsDetailsBloc, NewsDetailsState>(
+          builder: (context, state) {
+            if (state is NewsDetailsLoadSuccess) {
+              var data = state.newsDetailsList[0];
+              print('data details ==>>  ${data.detailsEn}');
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 80,
+                    padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                        colors: [
+                          Color(0xFFdb1ec9),
+                          Color(0xFFff005a),
                         ],
                       ),
                     ),
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.all(8.0),
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
-                                colors: [Color(0xFFdb1ec9), Color(0xFFff005a)],
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "News",
+                              style: TextStyle(
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.08,
+                                color: Colors.white,
                               ),
                             ),
-                            child: Text(
-                              title.single.toString(),
-                              style: TextStyle(
-                                  fontSize: 24,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
+                            CloseButtonWidget(context: context),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                              colors: [Color(0xFFdb1ec9), Color(0xFFff005a)],
                             ),
                           ),
-                          Container(
-                            child: Image(
-                              width: MediaQuery.of(context).size.width,
-                              height: 160,
-                              fit: BoxFit.fill,
-                              image: NetworkImage(photo.single.toString()),
-                            ),
+                          child: Text(
+                            data.titleEn.toString(),
+                            style: TextStyle(
+                                fontSize: 24,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
                           ),
-                          Expanded(
-                            // child: _buildWebView(details.single.toString()),
-                            child: WebviewScaffold(
-                              url: new Uri.dataFromString(details.single,
-                                      mimeType: 'text/html')
-                                  .toString(),
-                            ),
+                        ),
+                        Container(
+                          child: Image(
+                            width: MediaQuery.of(context).size.width,
+                            height: 160,
+                            fit: BoxFit.fill,
+                            image: NetworkImage(data.photoFile.toString()),
                           ),
-                        ],
-                      ),
-                    )
-                  ],
-                );
-              } else {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            },
-          ),
-          // body: _buildWebView(data),
+                        ),
+                        Expanded(
+                          child: Container(
+                              padding: EdgeInsets.all(8.0),
+                              child: SingleChildScrollView(
+                                  child: HtmlWidget(data.detailsEn))),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              );
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
         ),
+        // body: _buildWebView(data),
       ),
     );
   }

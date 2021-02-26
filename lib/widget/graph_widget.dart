@@ -131,6 +131,13 @@ class _GraphWidgetState extends State<GraphWidget> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _GraphWidgetState();
+//    _gridData().
+  }
+  @override
   Widget build(BuildContext context) {
 //    BlocProvider.of<WeekDayHistoryBloc>(context)
 //        .add(LoadWeekDayHistory(marketId));

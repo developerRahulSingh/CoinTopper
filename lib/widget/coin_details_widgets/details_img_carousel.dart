@@ -5,7 +5,10 @@ import 'package:flutter/material.dart';
 class DetailsImageCarousel extends StatefulWidget {
   final List<GuidesEntity> guides;
 
-  DetailsImageCarousel(this.guides);
+  DetailsImageCarousel({
+    Key key,
+    this.guides,
+  }) : super(key: key);
 
   @override
   _DetailsImageCarouselState createState() => _DetailsImageCarouselState();

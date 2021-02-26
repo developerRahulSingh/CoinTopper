@@ -3,13 +3,15 @@ import 'dart:convert';
 import 'package:cointopper/entities/coin_list_entity.dart';
 import 'package:cointopper/models/coin_list_response_model.dart';
 import 'package:cointopper/screens/coin_detail_screen.dart';
+import 'package:cointopper/widget/coin_list_widgets/coin_list_logo_and_name_widget.dart';
+import 'package:cointopper/widget/coin_list_widgets/coin_list_logo_change_widget.dart';
 import 'package:cointopper/widget/coin_list_widgets/list_header_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:http/http.dart' as http;
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
+
+import 'coin_list_widgets/coin_list_price_widget.dart';
 
 Stream<List<CoinListResponseModel>> fetchCoinList(
     String currencyCode, int offset, int limit) async* {
@@ -122,7 +124,7 @@ class _CoinListWidgetState extends State<CoinListWidget> {
                     });
                   },
                   child: ListHeaderWidget(
-                    headerName: 'NAME/  M.CAP',
+                    headerName: 'NAME/ M.CAP',
                     isSort: isSort,
                   ),
                 ),
@@ -172,134 +174,46 @@ class _CoinListWidgetState extends State<CoinListWidget> {
           pagingController: _pagingController,
           builderDelegate: PagedChildBuilderDelegate(
             itemBuilder: (context, item, index) => Container(
-              padding: EdgeInsets.only(left: 10, right: 10),
               width: MediaQuery.of(context).size.width,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => CoinDetail(
-                            item.symbol,
-                            widget.currencyCode,
-                            widget.currencySymbol,
-                          ),
-                        ),
-                      );
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Center(
-                          child: Container(
-                            padding: EdgeInsets.all(4.0),
-                            child: Image(
-                              width: MediaQuery.of(context).size.width * 0.1,
-                              height: MediaQuery.of(context).size.width * 0.1,
-                              image: NetworkImage(item.logo),
-                            ),
-                          ),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              item.name,
-                              overflow: TextOverflow.fade,
-                              style: TextStyle(
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.03,
-                                color: Colors.grey[800],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 6,
-                            ),
-                            Text(
-                              "${item.symbol} / ${NumberFormat.compactCurrency(
-                                decimalDigits: 2,
-                                symbol: '${widget.currencySymbol}',
-                              ).format(item.marketCapUSD)}",
-                              style: TextStyle(
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.03,
-                                color: Colors.grey[500],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+              child: FlatButton(
+                padding: EdgeInsets.only(left: 4.0, right: 4.0),
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => CoinDetail(
+                        item.symbol,
+                        widget.currencyCode,
+                        widget.currencySymbol,
+                      ),
                     ),
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Image(
-                        width: 15,
-                        height: 15,
-                        image: AssetImage(item.percentChange24h > 0
-                            ? "assets/images/up_arrow_green.png"
-                            : "assets/images/down_arrow_red.png"),
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        '${double.parse((item.percentChange24h).toStringAsFixed(2))}%',
-                        style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.03,
-                          fontWeight: FontWeight.bold,
-                          color: item.percentChange24h > 0
-                              ? Colors.green[600]
-                              : HexColor("#a94442"),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        "${item.price > 99999 ? NumberFormat.compactCurrency(
-                            decimalDigits: 2,
-                            symbol: '${widget.currencySymbol}',
-                          ).format(item.price) : '${widget.currencySymbol}' + item.price.toStringAsFixed(2)}",
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.03,
-                          color: Colors.blue,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 6,
-                      ),
-                      Row(
-                        children: [
-                          Icon(
-                            FontAwesomeIcons.btc,
-                            color: Colors.grey[500],
-                            size: MediaQuery.of(context).size.width * 0.03,
-                          ),
-                          Text(
-                            "${(item.priceBTC).toStringAsFixed(8)}",
-                            style: TextStyle(
-                              fontSize:
-                                  MediaQuery.of(context).size.width * 0.03,
-                              color: Colors.grey[500],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
+                  );
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CoinListLogoAndNameWidget(
+                      logo: item.logo,
+                      name: item.name,
+                      symbol: item.symbol,
+                      marketCapUSD:
+                          "${item.symbol} / ${NumberFormat.compactCurrency(
+                        decimalDigits: 2,
+                        symbol: '${widget.currencySymbol}',
+                      ).format(item.marketCapUSD)}",
+                    ),
+                    CoinListLogoChangeWidget(
+                      percentChange24h: item.percentChange24h,
+                    ),
+                    CoinListPriceWidget(
+                      price: '${item.price > 99999 ? NumberFormat.compactCurrency(
+                          decimalDigits: 2,
+                          symbol: '${widget.currencySymbol}',
+                        ).format(item.price) : '${widget.currencySymbol}' + item.price.toStringAsFixed(2)}',
+                      priceBTC: item.priceBTC,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

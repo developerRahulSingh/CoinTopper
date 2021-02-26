@@ -29,7 +29,7 @@ class _CoinCardWidgetState extends State<CoinCardWidget> {
     return Column(
       children: [
         Container(
-          padding: EdgeInsets.all(5.0),
+          padding: EdgeInsets.all(4.0),
           width: MediaQuery.of(context).size.width * 1,
           child: Text(
             "Top Viewed",
@@ -178,8 +178,6 @@ Widget _cardSlider(
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
-//                      fontSize: MediaQuery.of(context).size.width *
-//                          0.04,
                       fontSize: 20,
                     ),
                   ),

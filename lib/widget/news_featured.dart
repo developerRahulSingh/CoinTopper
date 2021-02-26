@@ -5,7 +5,6 @@ import 'package:cointopper/screens/news_webview_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
-//import 'package:url_launcher/url_launcher.dart';
 
 class NewsFeatured extends StatefulWidget {
   @override
@@ -63,19 +62,6 @@ class _NewsSliderState extends State<NewsSlider> {
 
   @override
   Widget build(BuildContext context) {
-//    Future<void> _launched;
-//    Future<void> _launchInWebView(String url) async {
-//      if (await canLaunch(url)) {
-//        await launch(
-//          url,
-//          forceSafariVC: true,
-//          forceWebView: true,
-//          enableJavaScript: true,
-//        );
-//      } else {
-//        throw 'Could not launch $url';
-//      }
-//    }
 
     Widget carousel = data == null
         ? Center(
@@ -94,7 +80,7 @@ class _NewsSliderState extends State<NewsSlider> {
                 aspectRatio: 1.5,
                 enlargeCenterPage: true,
                 onPageChanged: (index, reason) {
-                  print('News Featured page ');
+//                  print('News Featured page ');
 //                  setState(() {
 //                    _current = index;
 //                  });

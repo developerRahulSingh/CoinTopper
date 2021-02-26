@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cointopper/bloc/news_list_bloc/news_list_bloc.dart';
 import 'package:cointopper/bloc/news_list_bloc/news_list_state.dart';
 import 'package:cointopper/screens/news_webview_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
 
@@ -40,88 +40,82 @@ class _NewsListState extends State<NewsList> {
                       itemBuilder: (context, i) {
                         return Column(
                           children: [
-                            GestureDetector(
+                            ListTile(
+                              dense: true,
+                              visualDensity:
+                                  VisualDensity(horizontal: -4, vertical: 0),
+                              contentPadding: EdgeInsets.only(
+                                left: 5.0,
+                                right: 15.0,
+                              ),
+                              leading: new Image(
+                                width: 80,
+                                height: 80,
+                                image: NetworkImage(data[i].photoFile),
+                              ),
+                              title: Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 0.0, bottom: 0.0),
+                                child: new Text(data[i].titleEn),
+                              ),
                               onTap: () {
-                                // Navigator.of(context).push(MaterialPageRoute(
-                                //     builder: (_) =>
-                                //         CoinDetails(_searchResult[i].id)));
-                              },
-                              child: new ListTile(
-                                dense: true,
-                                visualDensity:
-                                    VisualDensity(horizontal: -4, vertical: 0),
-                                contentPadding: EdgeInsets.only(
-                                  left: 5.0,
-                                  right: 15.0,
-                                ),
-                                leading: new Image(
-                                  width: 80,
-                                  height: 80,
-                                  image: NetworkImage(data[i].photoFile),
-                                ),
-                                title: Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 0.0, bottom: 0.0),
-                                  child: new Text(data[i].titleEn),
-                                ),
-                                onTap: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          NewsWebview( 
-                                        id: data[i].id,
+                                Navigator.of(context)
+                                    .push(
+                                      MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            NewsWebview(
+                                          id: data[i].id,
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                },
-                                subtitle: new Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    new Row(
-                                      children: [
-                                        Flexible(
-                                          child: Text(
-                                            isVisible && cid == data[i].id
-                                                ? data[i].seoDescriptionEn
-                                                : "",
-                                            overflow: TextOverflow.visible,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        new Text(data[i].date.toString()),
-                                        new Text("Share"),
-                                        new FlatButton(
-                                            minWidth: 2,
-                                            shape: new RoundedRectangleBorder(
-                                                borderRadius:
-                                                    new BorderRadius.circular(
-                                                        50.0)),
-                                            child: Icon(
-                                              isVisible && cid == data[i].id
-                                                  ? FontAwesomeIcons.chevronUp
-                                                  : FontAwesomeIcons
-                                                      .chevronDown,
-                                              color: Colors.black,
-                                              size: 14,
-                                            ),
-                                            onPressed: () {
-                                              setState(() {
-                                                isVisible = !isVisible;
-                                                cid = data[i].id;
-                                              });
-                                            }),
-                                      ],
                                     )
-                                  ],
-                                ),
+                                    .then((value) => setState(() => {}));
+                              },
+                              subtitle: new Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  new Row(
+                                    children: [
+                                      Flexible(
+                                        child: Text(
+                                          isVisible && cid == data[i].id
+                                              ? data[i].seoDescriptionEn
+                                              : "",
+                                          overflow: TextOverflow.visible,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      new Text(data[i].date.toString()),
+                                      new Text("Share"),
+                                      new FlatButton(
+                                          minWidth: 2,
+                                          shape: new RoundedRectangleBorder(
+                                              borderRadius:
+                                                  new BorderRadius.circular(
+                                                      50.0)),
+                                          child: Icon(
+                                            isVisible && cid == data[i].id
+                                                ? FontAwesomeIcons.chevronUp
+                                                : FontAwesomeIcons.chevronDown,
+                                            color: Colors.black,
+                                            size: 14,
+                                          ),
+                                          onPressed: () {
+                                            setState(() {
+                                              isVisible = !isVisible;
+                                              cid = data[i].id;
+                                            });
+                                          }),
+                                    ],
+                                  )
+                                ],
                               ),
                             ),
                             Divider(

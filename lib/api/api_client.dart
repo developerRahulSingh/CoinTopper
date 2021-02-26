@@ -242,10 +242,13 @@ class ApiClient {
     Map<String, dynamic> map = json.decode(response.body);
     var results = map["data"];
     convertInArray.add(results);
+    print('Convert Array ==>> $convertInArray');
     yield convertInArray
         .map<NewsDetailsResponseModel>((dynamic item) =>
             NewsDetailsResponseModel.fromEntity(
                 NewsDetailsEntity.fromJson(item as Map<String, dynamic>)))
         .toList();
+    convertInArray.clear();
+    print('Convert Array Clear ==>> $convertInArray');
   }
 }
