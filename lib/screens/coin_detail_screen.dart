@@ -4,13 +4,14 @@ import 'package:cointopper/bloc/coin_detail_bloc/coin_detail_state.dart';
 import 'package:cointopper/widget/close_button.dart';
 import 'package:cointopper/widget/coin_detail_card_component_widget.dart';
 import 'package:cointopper/widget/coin_detail_card_screenshot_widget.dart';
+import 'package:cointopper/widget/coin_details_widgets/coin_detail_logo_and_name_widget.dart';
+import 'package:cointopper/widget/coin_details_widgets/coin_detail_pricebtc_widget.dart';
 import 'package:cointopper/widget/coin_details_widgets/coin_price_and%20_change_widget.dart';
 import 'package:cointopper/widget/custom_safearea_widget.dart';
 import 'package:cointopper/widget/icon_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 
@@ -64,32 +65,10 @@ class _CoinDetailState extends State<CoinDetail> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            children: [
-                              Container(
-                                padding: EdgeInsets.all(2),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30),
-                                  color: Colors.white30,
-                                ),
-                                child: Image(
-                                  width: 32,
-                                  height: 32,
-                                  image: NetworkImage(data.logo),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 6,
-                              ),
-                              Text(
-                                '${data.name}/ ${data.symbol}',
-                                style: TextStyle(
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.05,
-                                  color: Colors.white60,
-                                ),
-                              ),
-                            ],
+                          CoinDetailLogoAndNameWidget(
+                            logo: data.logo,
+                            name: data.name,
+                            symbol: data.symbol,
                           ),
                           CloseButtonWidget(
                             context: context,
@@ -109,21 +88,8 @@ class _CoinDetailState extends State<CoinDetail> {
                         changeFontSize:
                             MediaQuery.of(context).size.width * 0.03,
                       ),
-                      Row(
-                        children: [
-                          Icon(
-                            FontAwesomeIcons.btc,
-                            color: Colors.white60,
-                            size: 14,
-                          ),
-                          Text(
-                            "${data.priceBTC.toStringAsFixed(8)}",
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.white60,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
+                      CoinDetailPricebtcWidget(
+                        priceBTC: data.priceBTC.toStringAsFixed(8),
                       ),
                       SizedBox(
                         height: 10,

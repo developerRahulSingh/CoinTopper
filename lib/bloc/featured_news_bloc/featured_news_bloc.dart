@@ -27,7 +27,6 @@ class FeaturedNewsBloc extends Bloc<FeaturedNewsEvent, FeaturedNewsState> {
   }
 
   Stream<FeaturedNewsState> _mapLoadFeaturedNewsListState() async* {
-    print("bloc enterred");
     _coinSubscription?.cancel();
     _coinSubscription = coinRepository.loadFeaturedNewsList().listen(
           (list) => add(UpdateFeaturedNewsList(list)),

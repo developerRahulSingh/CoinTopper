@@ -17,7 +17,7 @@ class CoinListPriceWidget extends StatelessWidget {
       width: MediaQuery.of(context).size.width * 0.25,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             price,

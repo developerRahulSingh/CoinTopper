@@ -28,11 +28,12 @@ class _ListHeaderWidgetState extends State<ListHeaderWidget> {
               color: Color(0xFF005580),
             ),
           ),
+          widget.isSort != null ?
           Icon(
             widget.isSort ? Icons.arrow_downward : Icons.arrow_upward,
             size: MediaQuery.of(context).size.width * 0.03,
             color: Color(0xFF005580),
-          ),
+          ): Container(),
         ],
       ),
     );

@@ -23,7 +23,7 @@ class _NewsListState extends State<NewsList> {
           final data = state.newsList;
           return Column(children: [
             Container(
-              padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+              padding: EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
               width: MediaQuery.of(context).size.width * 1,
               child: Text(
                 "RECENT NEWS",

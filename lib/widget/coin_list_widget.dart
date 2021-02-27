@@ -197,7 +197,7 @@ class _CoinListWidgetState extends State<CoinListWidget> {
                       name: item.name,
                       symbol: item.symbol,
                       marketCapUSD:
-                          "${item.symbol} / ${NumberFormat.compactCurrency(
+                          "${NumberFormat.compactCurrency(
                         decimalDigits: 2,
                         symbol: '${widget.currencySymbol}',
                       ).format(item.marketCapUSD)}",

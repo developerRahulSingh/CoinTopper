@@ -1,15 +1,17 @@
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
+import 'package:cointopper/widget/coin_details_widgets/coin_detail_card_graph_date_and_logo_widget.dart';
+import 'package:cointopper/widget/coin_details_widgets/coin_detail_logo_and_name_widget.dart';
+import 'package:cointopper/widget/coin_details_widgets/coin_detail_pricebtc_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:image_picker_saver/image_picker_saver.dart';
 import 'package:intl/intl.dart';
 
+import 'coin_details_widgets/coin_detail_card_screenshot_button_widget.dart';
 import 'coin_details_widgets/coin_price_and _change_widget.dart';
-import 'graph_widget.dart';
 
 class CoinDetailCardWidget extends StatefulWidget {
   final dynamic data;
@@ -56,55 +58,28 @@ class _CoinDetailCardWidgetState extends State<CoinDetailCardWidget> {
   }
 
   dynamic shareButton() {
-    return FlatButton(
-      child: Container(
-          padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            color: Colors.white30,
-          ),
-          child: Icon(
-            Icons.share,
-            color: Colors.white,
-          )),
-      onPressed: () {},
+    return CoinDetailCardScreenShotButtonWidget(
+      onPress: () {},
+      iconName: Icons.share,
     );
   }
 
   dynamic downloadButton(var data) {
-    return FlatButton(
-      child: Container(
-          padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            color: Colors.white30,
-          ),
-          child: Icon(
-            Icons.arrow_downward,
-            color: Colors.white,
-          )),
-      onPressed: () {
+    return CoinDetailCardScreenShotButtonWidget(
+      onPress: () {
         FocusScope.of(context).requestFocus(FocusNode());
         _captureScreenshot(_globalKey, widget.data);
       },
+      iconName: Icons.arrow_downward,
     );
   }
 
   dynamic closeButton() {
-    return FlatButton(
-      child: Container(
-          padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            color: Colors.white30,
-          ),
-          child: Icon(
-            Icons.close,
-            color: Colors.white,
-          )),
-      onPressed: () {
+    return CoinDetailCardScreenShotButtonWidget(
+      onPress: () {
         Navigator.of(context).pop();
       },
+      iconName: Icons.close,
     );
   }
 
@@ -157,33 +132,10 @@ class _CoinDetailCardWidgetState extends State<CoinDetailCardWidget> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              padding: EdgeInsets.all(4.0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                color: Colors.white30,
-                              ),
-                              child: Image(
-                                width: 32,
-                                height: 32,
-                                image: NetworkImage(widget.data.logo),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 6,
-                            ),
-                            Text(
-                              "${widget.data.name}/${widget.data.symbol}",
-                              style: TextStyle(
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.04,
-                                  color: Colors.white60),
-                            ),
-                          ],
+                        CoinDetailLogoAndNameWidget(
+                          logo: widget.data.logo,
+                          name: widget.data.name,
+                          symbol: widget.data.symbol,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -207,21 +159,9 @@ class _CoinDetailCardWidgetState extends State<CoinDetailCardWidget> {
                                   changeFontSize:
                                       MediaQuery.of(context).size.width * 0.03,
                                 ),
-                                Row(
-                                  children: [
-                                    Icon(
-                                      FontAwesomeIcons.btc,
-                                      color: Colors.white60,
-                                      size: 14,
-                                    ),
-                                    Text(
-                                      "${widget.data.priceBTC.toStringAsFixed(8)}",
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.white60,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
+                                CoinDetailPricebtcWidget(
+                                  priceBTC:
+                                      widget.data.priceBTC.toStringAsFixed(8),
                                 ),
                                 SizedBox(
                                   height: 12,
@@ -307,51 +247,10 @@ class _CoinDetailCardWidgetState extends State<CoinDetailCardWidget> {
                                 ),
                               ],
                             ),
-                            Column(
-                              children: [
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.2,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        height: 70,
-                                        width: 70,
-                                        color: Colors.transparent,
-                                        padding: EdgeInsets.all(4.0),
-                                        child: GraphWidget(
-                                          marketId: widget.data.marketId,
-                                          color1: '#FFFAFA',
-                                          color2: '#F5F5F5',
-                                          leftSizeShowTitles: false,
-                                          bottomSideShowTitles: false,
-                                        ),
-                                      ),
-                                      Text(
-                                        "$formattedDate ISD",
-                                        style: TextStyle(
-                                            fontSize: 10,
-                                            color: Colors.white60,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Image(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.2,
-                                        image: AssetImage(
-                                            'assets/images/logo.png'),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
+                            CoinDetailCardGraphDateAndLogoWidget(
+                              marketId: widget.data.marketId,
+                              formattedDate: formattedDate,
+                            )
                           ],
                         ),
                       ],

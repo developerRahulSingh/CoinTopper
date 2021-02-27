@@ -91,15 +91,18 @@ class _NewsSearchState extends State<NewsSearch> {
                                     borderRadius: BorderRadius.circular(12))),
                             onChanged: onSearchTextChanged,
                           ),
-                          trailing: new IconButton(
-                            icon: new Icon(
-                              Icons.cancel,
-                              color: Colors.white60,
-                            ),
-                            onPressed: () {
+                          trailing: GestureDetector(
+                            onTap: () {
                               controller.clear();
                               onSearchTextChanged('');
                             },
+                            child: Text(
+                              'Clear',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white60,
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -139,8 +142,7 @@ class _NewsSearchState extends State<NewsSearch> {
                                       leading: new Image(
                                         width: 80,
                                         height: 80,
-                                        image:
-                                            NetworkImage(data[i].photoFile),
+                                        image: NetworkImage(data[i].photoFile),
                                       ),
                                       title: Padding(
                                         padding: const EdgeInsets.only(
@@ -165,10 +167,8 @@ class _NewsSearchState extends State<NewsSearch> {
                                             children: [
                                               Flexible(
                                                 child: Text(
-                                                  isVisible &&
-                                                          cid == data[i].id
-                                                      ? data[i]
-                                                          .seoDescriptionEn
+                                                  isVisible && cid == data[i].id
+                                                      ? data[i].seoDescriptionEn
                                                       : "",
                                                   overflow:
                                                       TextOverflow.visible,
@@ -181,11 +181,9 @@ class _NewsSearchState extends State<NewsSearch> {
                                           ),
                                           Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment
-                                                    .spaceBetween,
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
-                                              new Text(
-                                                  data[i].date.toString()),
+                                              new Text(data[i].date.toString()),
                                               new Text("Share"),
                                               new FlatButton(
                                                   minWidth: 2,

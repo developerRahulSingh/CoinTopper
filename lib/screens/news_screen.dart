@@ -1,4 +1,5 @@
 import 'package:cointopper/widget/news_featured.dart';
+import 'package:cointopper/widget/search_button_widget.dart';
 import 'package:flutter/material.dart';
 
 import 'news_list_screen.dart';
@@ -30,6 +31,7 @@ class _NewsPageState extends State<NewsPage> {
             children: [
               Container(
                 height: 150,
+                width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.only(left: 8.0, right: 8.0),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -39,58 +41,37 @@ class _NewsPageState extends State<NewsPage> {
                   ),
                 ),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "CoinTopper",
-                          style: TextStyle(fontSize: 18, color: Colors.white60),
-                        ),
-                      ],
+                    Text(
+                      "CoinTopper",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white60,
+                      ),
                     ),
-                    Row(
-                      children: [
-                        Text(
-                          "News",
-                          style: TextStyle(
-                              fontSize: 30,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
+                    Text(
+                      "News",
+                      style: TextStyle(
+                          fontSize: 30,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
                       height: 10,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(
-                                MaterialPageRoute(builder: (_) => NewsSearch()));
-                          },
-                          child: Container(
-                              padding:
-                                  EdgeInsets.only(top: 10, bottom: 10, left: 10),
-                              height: 40,
-                              width: MediaQuery.of(context).size.width * 0.9,
-                              decoration: BoxDecoration(
-                                // color: Color(0xFF00e00),
-                                color: Colors.black12,
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Text(
-                                "Search",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                ),
-                              )),
-                        ),
-                      ],
+                    SearchButtonWidget(
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      color: Colors.black12,
+                      alignment: Alignment.centerLeft,
+                      onPress: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => NewsSearch(),
+                          ),
+                        );
+                      },
                     )
                   ],
                 ),

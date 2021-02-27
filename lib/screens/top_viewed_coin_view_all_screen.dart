@@ -30,6 +30,7 @@ class _TopViewedCoinViewAllScreenState
   bool isSort = true;
   bool isSortChange = true;
   bool isSortPrice = true;
+  bool sorted = false;
   var _sortColumnIndex;
   var loadData = 20;
 
@@ -108,19 +109,19 @@ class _TopViewedCoinViewAllScreenState
                         if (state is TopViewedCoinListLoadSuccess) {
                           return DataTable(
                             columnSpacing: 8.0,
-                            horizontalMargin: 4.0,
+                            horizontalMargin: 8.0,
                             showBottomBorder: true,
                             dataRowHeight:
-                                MediaQuery.of(context).size.height * 0.08,
+                                MediaQuery.of(context).size.height * 0.07,
                             headingRowHeight:
                                 MediaQuery.of(context).size.height * 0.05,
                             sortColumnIndex: _sortColumnIndex,
-                            sortAscending: isSort,
+                            sortAscending: sorted,
                             columns: [
                               DataColumn(
                                 label: ListHeaderWidget(
                                   headerName: 'NAME/ M.CAP',
-                                  isSort: isSort,
+//                                  isSort: isSort,
                                 ),
                                 onSort: (i, b) {
                                   setState(() {
@@ -130,10 +131,12 @@ class _TopViewedCoinViewAllScreenState
                                         state.topViewedCoinsList.sort(
                                             (a, b) => b.name.compareTo(a.name));
                                         isSort = false;
+                                        sorted = true;
                                       } else {
                                         state.topViewedCoinsList.sort(
                                             (a, b) => a.name.compareTo(b.name));
                                         isSort = true;
+                                        sorted = false;
                                       }
                                     }
                                   });
@@ -142,7 +145,7 @@ class _TopViewedCoinViewAllScreenState
                               DataColumn(
                                 label: ListHeaderWidget(
                                   headerName: 'CHANGE',
-                                  isSort: isSortChange,
+//                                  isSort: isSortChange,
                                 ),
                                 onSort: (i, b) {
                                   setState(() {
@@ -153,11 +156,13 @@ class _TopViewedCoinViewAllScreenState
                                             b.percentChange24h
                                                 .compareTo(a.percentChange24h));
                                         isSortChange = false;
+                                        sorted = true;
                                       } else {
                                         state.topViewedCoinsList.sort((a, b) =>
                                             a.percentChange24h
                                                 .compareTo(b.percentChange24h));
                                         isSortChange = true;
+                                        sorted = false;
                                       }
                                     }
                                   });
@@ -166,7 +171,7 @@ class _TopViewedCoinViewAllScreenState
                               DataColumn(
                                 label: ListHeaderWidget(
                                   headerName: 'PRICE',
-                                  isSort: isSortPrice,
+//                                  isSort: isSortPrice,
                                 ),
                                 onSort: (i, b) {
                                   setState(() {
@@ -176,10 +181,12 @@ class _TopViewedCoinViewAllScreenState
                                         state.topViewedCoinsList.sort((a, b) =>
                                             b.price.compareTo(a.price));
                                         isSortPrice = false;
+                                        sorted = true;
                                       } else {
                                         state.topViewedCoinsList.sort((a, b) =>
                                             a.price.compareTo(b.price));
                                         isSortPrice = true;
+                                        sorted = false;
                                       }
                                     }
                                   });
@@ -210,7 +217,7 @@ class _TopViewedCoinViewAllScreenState
                                                 name: coin.name,
                                                 symbol: coin.symbol,
                                                 marketCapUSD:
-                                                    "${coin.symbol} / ${NumberFormat.compactCurrency(
+                                                    "${NumberFormat.compactCurrency(
                                                   decimalDigits: 2,
                                                   symbol:
                                                       '${widget.currencySymbol}',
@@ -225,20 +232,22 @@ class _TopViewedCoinViewAllScreenState
                                             ),
                                           ),
                                           DataCell(
-                                            CoinListPriceWidget(
-                                              price: '${coin.price > 99999 ? NumberFormat.compactCurrency(
-                                                  decimalDigits: 2,
-                                                  symbol:
-                                                      '${widget.currencySymbol}',
-                                                ).format(coin.price) : '${widget.currencySymbol}' + coin.price.toStringAsFixed(2)}',
-                                              priceBTC: coin.priceBTC,
+                                            Center(
+                                              child: CoinListPriceWidget(
+                                                price: '${coin.price > 99999 ? NumberFormat.compactCurrency(
+                                                    decimalDigits: 2,
+                                                    symbol:
+                                                        '${widget.currencySymbol}',
+                                                  ).format(coin.price) : '${widget.currencySymbol}' + coin.price.toStringAsFixed(2)}',
+                                                priceBTC: coin.priceBTC,
+                                              ),
                                             ),
                                           ),
                                         ],
                                       ),
                                     )
                                     .toList()
-                                : "Not an arry",
+                                : "Not an array",
                           );
                         }
                         return Center(

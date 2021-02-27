@@ -1,15 +1,14 @@
 import 'package:cointopper/bloc/currency_list_bloc/currency_list_bloc.dart';
 import 'package:cointopper/bloc/currency_list_bloc/currency_list_state.dart';
-import 'package:cointopper/bloc/dashboard_bloc/dashboard_bloc.dart';
-import 'package:cointopper/bloc/dashboard_bloc/dashboard_state.dart';
 import 'package:cointopper/screens/search_coin_list_screen.dart';
 import 'package:cointopper/widget/coin_card_widget.dart';
 import 'package:cointopper/widget/coin_list_widget.dart';
 import 'package:cointopper/widget/custom_safearea_widget.dart';
+import 'package:cointopper/widget/dashboard_widget/crypto_market_cap_widget.dart';
 import 'package:cointopper/widget/icon_button_widget.dart';
+import 'package:cointopper/widget/search_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -74,104 +73,43 @@ class _HomeState extends State<Home> {
                           ),
                         ],
                       ),
-                      Column(
-                        children: [
-                          Text(
-                            'CRYPTOM.CAP',
-                            style: TextStyle(
-                              fontSize:
-                                  MediaQuery.of(context).size.width * 0.03,
-                              color: Colors.white,
-                            ),
-                          ),
-                          BlocBuilder<DashboardBloc, DashboardState>(
-                            builder: (context, state) {
-                              if (state is DashboardLoadSuccess) {
-                                var _formattedMarketCap =
-                                    NumberFormat.compactCurrency(
-                                  decimalDigits: 2,
-                                  symbol: '\$',
-                                ).format(state
-                                        .globalDataCoin[0].totalMarketCap);
-                                return Text(
-                                  _formattedMarketCap,
-                                  style: TextStyle(
-                                    fontSize:
-                                        MediaQuery.of(context).size.width *
-                                            0.04,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                );
-                              } else {
-                                return Text(
-                                  '--',
-                                  style: TextStyle(
-                                    fontSize:
-                                        MediaQuery.of(context).size.width *
-                                            0.04,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                );
-                              }
-                            },
-                          ),
-                        ],
-                      ),
+                      CryptoMarketCapWidget(),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Container(
-                        height: 40,
+                      SearchButtonWidget(
+                        color: Color(0xFF2e5cb8),
                         width: MediaQuery.of(context).size.width * 0.4,
-                        decoration: BoxDecoration(
-                          color: Color(0xFF2e5cb8),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: FlatButton(
-                          onPressed: () => {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (_) => SearchScreen(
-                                    dropdownValue, currencySymbol),
-                              ),
-                            ),
-                          },
-                          child: Text(
-                            'Search',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize:
-                                  MediaQuery.of(context).size.width * 0.04,
+                        onPress: () => {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) =>
+                                  SearchScreen(dropdownValue, currencySymbol),
                             ),
                           ),
-                        ),
+                        },
                       ),
                       BlocBuilder<CurrencyListBloc, CurrencyListState>(
                         builder: (context, state) {
                           if (state is CurrencyListLoadSuccess) {
                             dynamic currencySymbolData = state.currencyList
-                                .where((value) =>
-                                    value.symbol == dropdownValue);
-                            dynamic symbolData = currencySymbolData
-                                .map((value) => value.format);
+                                .where(
+                                    (value) => value.symbol == dropdownValue);
+                            dynamic symbolData =
+                                currencySymbolData.map((value) => value.format);
                             return Container(
                               height: 40,
-                              width:
-                                  MediaQuery.of(context).size.width * 0.2,
+                              width: MediaQuery.of(context).size.width * 0.2,
                               decoration: BoxDecoration(
                                 color: Color(0xFF2e5cb8),
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: DropdownButton(
                                 iconSize: 0.0,
-                                underline:
-                                    Container(color: Colors.transparent),
-                                selectedItemBuilder:
-                                    (BuildContext context) {
+                                underline: Container(color: Colors.transparent),
+                                selectedItemBuilder: (BuildContext context) {
                                   return state.currencyList
                                       .map<Widget>((dynamic item) {
                                     return Container(

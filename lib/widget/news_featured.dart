@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+import 'news_widget/news_featured_list_title_widget.dart';
+
 class NewsFeatured extends StatefulWidget {
   @override
   _NewsFeaturedState createState() => _NewsFeaturedState();
@@ -21,7 +23,7 @@ class _NewsFeaturedState extends State<NewsFeatured> {
           return Column(children: [
             Container(
               padding:
-                  EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 10),
+                  EdgeInsets.only(left: 8.0, right: 8.0, top: 16.0, bottom: 8.0),
               width: MediaQuery.of(context).size.width * 1,
               child: Text(
                 "FEATURED NEWS",
@@ -54,6 +56,7 @@ class NewsSlider extends StatefulWidget {
 
 class _NewsSliderState extends State<NewsSlider> {
   final data;
+
 //  final _key = UniqueKey();
 
   _NewsSliderState(this.data);
@@ -62,7 +65,6 @@ class _NewsSliderState extends State<NewsSlider> {
 
   @override
   Widget build(BuildContext context) {
-
     Widget carousel = data == null
         ? Center(
             child: Container(
@@ -116,33 +118,9 @@ class _NewsSliderState extends State<NewsSlider> {
                                   bottom: 0.0,
                                   left: 0.0,
                                   right: 0.0,
-                                  child: Container(
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                          colors: [
-                                            Color.fromARGB(200, 0, 0, 0),
-                                            Color.fromARGB(0, 0, 0, 0)
-                                          ],
-                                          begin: Alignment.bottomCenter,
-                                          end: Alignment.topCenter,
-                                        ),
-                                      ),
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 10.0, horizontal: 20.0),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            e.titleEn,
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 14.0,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ],
-                                      )),
+                                  child: NewsFeaturedListTitleWidget(
+                                    title: e.titleEn,
+                                  ),
                                 ),
                               ],
                             )),
